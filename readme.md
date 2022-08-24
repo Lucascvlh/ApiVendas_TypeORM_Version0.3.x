@@ -1,34 +1,12 @@
 # API_Restfull-TypeScript Com TypeORM version 0.3.x
 
-# Extensões usadas:
+# Atualizando TypeORM com docker-compose
 
-- ESLint
-- Prettier
-- Docker
-- Material Icon Theme
-- Dracula Official
-- DotENV
+- docker-compose exec app bash
+- npm uninstall typeorm
+- npm install typeorm
 
-# Comandos usados no terminal para as dependências
+# Atualizando e criando Migration no Docker-compose
 
-Iniciando projeto:
-
-- yarn init -y
-
-Adicionando o TypeScript:
-
-- yarn add typescript ts-node-dev @types/node tsconfig-paths -D
-- yarn tsc --init --rootDir src --outDir build --esModuleInterop --resolveJsonModule --lib es6 --module commonjs --allowJs true --noImplicitAny true
-- yarn tsc
-- node build/server.js
-- yarn dev
-
-Adicionando ESLint:
-
-- yarn add -D eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin
-- yarn lint
-
-Adicionando Prettier:
-
-- yarn add prettier -D
-- yarn add eslint-config-prettier@6.15.0 eslint-plugin-prettier@3.2.0 -D
+- npm run typeorm -- -d(ou -dataSource) ./src/shared/infra/typeorm/index.ts migration:run
+- npm run typeorm migration:create ./src/shared/infra/typeorm/migrations/(nome da migration)
