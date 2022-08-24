@@ -1,8 +1,9 @@
 import { ICreateUsers } from '@modules/users/domain/models/ICreateUsers';
-import { IPaginateUser } from '@modules/users/domain/models/IPaginateUser';
 import { IUsersRepository } from '@modules/users/domain/repositories/IUsersRepository';
-import { getRepository, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import User from '../entities/User';
+import { dataSource } from '@shared/infra/typeorm';
+import { IPaginateUser } from '@modules/products/domain/models/IPaginateUser';
 
 type SearchParams = {
   page: number;
@@ -14,7 +15,7 @@ class UsersRepository implements IUsersRepository {
   private ormRepository: Repository<User>;
 
   constructor() {
-    this.ormRepository = getRepository(User);
+    this.ormRepository = dataSource.getRepository(User);
   }
 
   public async create({ name, email, password }: ICreateUsers): Promise<User> {
@@ -52,24 +53,24 @@ class UsersRepository implements IUsersRepository {
     return result;
   }
 
-  public async findByName(name: string): Promise<User | undefined> {
-    const user = await this.ormRepository.findOne({
+  public async findByName(name: string): Promise<User | null> {
+    const user = await this.ormRepository.findOneBy({
       name,
     });
 
     return user;
   }
 
-  public async findById(id: string): Promise<User | undefined> {
-    const user = await this.ormRepository.findOne({
+  public async findById(id: string): Promise<User | null> {
+    const user = await this.ormRepository.findOneBy({
       id,
     });
 
     return user;
   }
 
-  public async findByEmail(email: string): Promise<User | undefined> {
-    const user = await this.ormRepository.findOne({
+  public async findByEmail(email: string): Promise<User | null> {
+    const user = await this.ormRepository.findOneBy({
       email,
     });
 
